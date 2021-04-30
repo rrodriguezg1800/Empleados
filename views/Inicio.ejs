@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="../public/css/estilos.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    
+    <title>
+        Empleados
+    </title>
+</head>
+<body>
+    <script src="js/validacion.js"></script>
+    <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 ">
+                    <div style="background-color: black;">
+                        <h1 style="font-weight: 600; background-color: black;">
+                            Administración de empleados
+                        </h1>
+                    </div>
+                    <div class="card-body" style="display: flex; justify-content: space-between;">
+                        <form action="/agregar" method="post" style="width: 40%;">
+                            <h3 class="card-title">Agregar empleado</h3>
+                            <div class="form-group">
+                                <p>
+                                    No. de empleado
+                                </p>
+                                <input type="text" name="numero" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <p style="margin-top: 2%; margin-right: 2rem;">
+                                    Nombres
+                                </p>
+                                <input type="text" name="nombre" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <p style="margin-top: 2%; margin-right: 2.3rem;">
+                                    Apellido
+                                </p>
+                                <input type="text" name="ap" class="form-control" required>
+                            </div>
+                            <div class="form-group" style="display: flex;">
+                                Fecha nacimiento
+                                <input type="date" name="cumple" class="form-control" required value="" min="1920-01-01" max="2010-05-01">
+                            </div>
+                            <div class="form-group" style="display: flex;">
+                                <p style="margin-top: 2%; margin-right: 3.8rem;">
+                                    Sexo
+                                </p>
+                                <select name="genero" id="" class="form-control">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Fecha de termino de contrato
+                                <input type="date" name="final" class="form-control" required min="2021-05-01">
+                            </div>
+                            <div class="form-group" style="display: flex;">
+                                <p style="margin-top: 2%; margin-right: 3.2rem;">
+                                    Salario
+                                </p>
+                                <input type="number" name="salario" class="form-control" min="0"  required>
+                            </div>
+                            <div class="form-group">
+                                Departamento a trabajar
+                                <select name="dept" id="" class="form-control">
+                                    <% for(var i=0; i< departamentos.length; i++){%>
+                                    <option value="<%= departamentos[i].dept_no %>"><%= departamentos[i].dept_name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn" style="width: 100%; background-color: rgb(23, 27, 235); color: white;" value="Añadir" onclick="validar()">
+                            </div>
+                        </form>
+                        <div style="display: inline-block; width: 40%;">
+                            <h3 class="card-title">Modificar empleados</h3>
+                            <% if(empleado !== undefined){
+                                try{%>
+                                <% if(empleado.length > 0){%>
+                                    <% for(var i=0; i< empleado.length; i++){%>
+                                        <div class="col-x2-10 my-3" style="margin: 1rem;">
+                                            <h5 class="card-title">ID: <%= empleado[i].emp_no    %> <br>
+                                                                        Nombre: <%= empleado[i].first_name + " " + empleado[i].last_name%></h5>
+                                            <p class="card-text">Genero: <%= empleado[i].gender %> <br>
+                                                                    Fecha de nacimiento: <%= empleado[i].birth_date.toString().substring(4,16) %> <br>
+                                                                    Contrato: <%= empleado[i].hire_date.toString().substring(4,16)+ " - " + salario_emp[i].to_date.toString().substring(4,16) %> <br>
+                                                                    Salario: <%= salario_emp[i].salary %> $<br>
+                                                                    Departamento: <%= dept_emp[i].dept_no %></p>
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <a href="/eliminar/<%= empleado[i].emp_no %>" class="btn" style="background-color: rgb(125, 21, 10); color: white;" >Eliminar</a>
+                                                <a href="/modificar/<%= empleado[i].emp_no %>" class="btn" style="background-color: rgb(79, 105, 195); color: white;">Modificar</a>
+                                                <a href="/estudio/<%= empleado[i].emp_no%>" class="btn" style="background-color: rgb(39, 71, 25); color: white;">Formación Academica</a>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                <% } %>
+                            <%}catch (e){%> <h1>Algún registro esta incompleto</h1> <%} } %>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+    </div>
+</body>
+</html>
